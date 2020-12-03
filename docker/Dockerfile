@@ -258,15 +258,17 @@ RUN cd /opt && \
 
 # rocksdb
 RUN cd /opt/ && \
-    git clone https://github.com/facebook/rocksdb.git && \
-    (cd rocksdb && \
-     git checkout -b 5.7.fb origin/5.7.fb && \
-     git reset --hard cfaeb5846bec0ac90d8da15dc11f53eafbbfd537 && \
-     git cherry-pick c5f0c6cc660f1f4a8051db2aac3b8afc17818e70 && \
-     git cherry-pick ba3c58cab6c691c53c7f98589651233695da1f62 && \
-     git cherry-pick 204af1ecccb6ed8110ee04cf9130594cfcb3af27 && \
+    #git clone https://github.com/facebook/rocksdb.git && \
+    git clone https://github.com/camelboat/my_rocksdb.git && \
+    (cd my_rocksdb && \
+     git checkout -b my_rocksdb origin/my_test_branch_2 && \
+     #git checkout -b 5.7.fb origin/5.7.fb && \
+     #git reset --hard cfaeb5846bec0ac90d8da15dc11f53eafbbfd537 && \
+     #git cherry-pick c5f0c6cc660f1f4a8051db2aac3b8afc17818e70 && \
+     #git cherry-pick ba3c58cab6c691c53c7f98589651233695da1f62 && \
+     #git cherry-pick 204af1ecccb6ed8110ee04cf9130594cfcb3af27 && \
      sed -i -- 's/std::rindex/rindex/g' ./env/env_hdfs.cc && \
-     sed -i -- '/"util\/string_util.h"/a #include "util\/logging.h"' ./env/env_hdfs.cc && \
+     #sed -i -- '/"util\/string_util.h"/a #include "util\/logging.h"' ./env/env_hdfs.cc && \
      export CLASSPATH= && \
      for f in `find /usr/lib/hadoop-hdfs | grep jar`; do export CLASSPATH=$CLASSPATH:$f; done && \
      for f in `find /usr/lib/hadoop | grep jar`; do export CLASSPATH=$CLASSPATH:$f; done && \
@@ -281,7 +283,7 @@ RUN cd /opt/ && \
        make -j ${BUILD_JOBS}  shared_lib && \
      make install-shared && \
      ldconfig) && \
-    rm -rf rocksdb
+    rm -rf my_rocksdb
 
 # farmhash
 RUN cd /opt && \
